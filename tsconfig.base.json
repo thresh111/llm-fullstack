@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "lib": [
+      "ES2022"
+    ],
+    "jsx": "preserve",
+    "incremental": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@ui/*": [
+        "./packages/ui/src/*"
+      ],
+      "@types/*": [
+        "./packages/types/src/*"
+      ],
+      "@utils/*": [
+        "./packages/utils/src/*"
+      ],
+      "@config/*": [
+        "./packages/config/src/*"
+      ],
+      "@db/*": [
+        "./packages/db/src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    "coverage",
+    ".turbo"
+  ]
+}
