@@ -1,7 +1,10 @@
-dist
 node_modules
+dist
+build
+.turbo
 coverage
 .next
-.turbo
-build
-out
+
+# Prisma generated client and migrations
+packages/db/node_modules/.prisma
+**/prisma/migrations
