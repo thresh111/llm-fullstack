@@ -185,41 +185,31 @@ const feOverrides = {
 /** 后端（NestJS + Prisma + Node） */
 const beOverrides = {
   files: [
-    'apps/*/api*/src/**/*.{ts,tsx,js}',
-    'apps/**/api*/src/**/*.{ts,tsx,js}',
+    'apps/*/backend*/src/**/*.{ts,tsx,js}',
+    'apps/**/backend*/src/**/*.{ts,tsx,js}',
   ],
   languageOptions: {
-    ...common.languageOptions,
     globals: {
-      ...common.languageOptions.globals,
-      // Node 环境
-      process: 'readonly',
-      __dirname: 'readonly',
-      module: 'readonly',
-      require: 'readonly',
+      ...globals.node,
+      ...globals.jest,
+    },
+    sourceType: 'commonjs',
+    parserOptions: {
+      projectService: true,
+      tsconfigRootDir: import.meta.dirname,
     },
   },
+  plugins: [],
   rules: {
-    // 更偏后端的规则集
-    ...promisePlugin.configs.recommended.rules,
-    ...sonarjsPlugin.configs.recommended.rules,
-
-    // Security（按需关闭在 TS 项目中误报较多的规则）
-    ...securityPlugin.configs.recommended.rules,
-    'security/detect-non-literal-fs-filename': 'off',
-
-    // Prisma
-    'prisma/recommended': 'warn',
-
-    // NestJS 推荐（来自 @nestjs/eslint-plugin）
-    // 插件本身没有 flat export，直接开启其推荐规则常用关键 rule:
-    '@typescript-eslint/no-misused-promises': [
-      'error',
-      { checksVoidReturn: false },
-    ],
-
-    // 后端 console：开发环境允许更多
-    'no-console': isProd ? ['warn', { allow: ['warn', 'error'] }] : 'off',
+    ...tseslint.configs.recommendedTypeChecked.reduce(
+      (rules, config) => Object.assign(rules, config.rules),
+      {},
+    ),
+    ...(eslint.configs?.recommended?.rules || {}),
+    ...(eslintPluginPrettierRecommended?.rules || {}),
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-floating-promises': 'warn',
+    '@typescript-eslint/no-unsafe-argument': 'warn',
   },
 }
 
